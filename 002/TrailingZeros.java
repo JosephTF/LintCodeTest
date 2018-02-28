@@ -1,7 +1,7 @@
 /**
  * 计算出n阶乘中尾部零的个数
- * @author Administrator
- *
+ * @author Joseph
+ *	2018/2/28
  */
 public class TrailingZeros {
 
