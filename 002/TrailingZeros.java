@@ -17,6 +17,9 @@ public class TrailingZeros {
 	 * 		3.又因为有些是5的指数，如25=5*5就包含了两个质因数5，要算两个。所以只要n！的n大于5必包含质因数5，要不停把阶乘数缩小5倍，直至小于5为止。
 	 */
 	private static long trailingZeros(long n) {
+		if(n<0){
+			return 0;
+		}
 		int count = 0;
 		while (n != 0) {
 			count += n / 5;
