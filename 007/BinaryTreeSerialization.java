@@ -7,15 +7,29 @@ import java.util.ArrayList;
  *
  */
 public class BinaryTreeSerialization {
-	
-	public String serialize(TreeNode root) {
+
+	public static void main(String[] args) {
+		TreeNode root = new TreeNode(3);
+		root.left = new TreeNode(9);
+		root.right = new TreeNode(20);
+		root.right.left = new TreeNode(15);
+		root.right.right = new TreeNode(7);
+		System.out.println(serialize(root));
+		System.out.println(deserialize("{1,2,3,4,#,5,6}").right.left.val);
+	}
+
+	/*
+	 * 二叉树序列化
+	 * 
+	 */
+	public static String serialize(TreeNode root) {
+		// 树结构为空
 		if (root == null) {
 			return "{}";
 		}
-
+		// 建立数组列表存放所有节点（包括空节点），最底层会再添加一层全部为空的节点
 		ArrayList<TreeNode> queue = new ArrayList<TreeNode>();
 		queue.add(root);
-
 		for (int i = 0; i < queue.size(); i++) {
 			TreeNode node = queue.get(i);
 			if (node == null) {
@@ -24,11 +38,11 @@ public class BinaryTreeSerialization {
 			queue.add(node.left);
 			queue.add(node.right);
 		}
-
+		//删除最底层的所有空节点
 		while (queue.get(queue.size() - 1) == null) {
 			queue.remove(queue.size() - 1);
 		}
-
+		// 序列化输出
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		sb.append(queue.get(0).val);
@@ -44,15 +58,18 @@ public class BinaryTreeSerialization {
 		return sb.toString();
 	}
 
-	public TreeNode deserialize(String data) {
+	/*
+	 * 反序列化
+	 */
+	public static TreeNode deserialize(String data) {
 		if (data.equals("{}")) {
 			return null;
 		}
-		String[] vals = data.substring(1, data.length() - 1).split(",");
-		ArrayList<TreeNode> queue = new ArrayList<TreeNode>();
-		TreeNode root = new TreeNode(Integer.parseInt(vals[0]));
-		queue.add(root);
 		int index = 0;
+		String[] vals = data.substring(1, data.length() - 1).split(",");//去括号拆分
+		ArrayList<TreeNode> queue = new ArrayList<TreeNode>();
+		TreeNode root = new TreeNode(Integer.parseInt(vals[index]));//根节点
+		queue.add(root);
 		boolean isLeftChild = true;
 		for (int i = 1; i < vals.length; i++) {
 			if (!vals[i].equals("#")) {
@@ -73,9 +90,12 @@ public class BinaryTreeSerialization {
 	}
 }
 
+// 树节点类
 class TreeNode {
-	public int val;
-	public TreeNode left, right;
+	// 三个要素
+	public int val; // 值
+	public TreeNode left, right; // 左子树，右子树
+	// 构造函数
 
 	public TreeNode(int val) {
 		this.val = val;
